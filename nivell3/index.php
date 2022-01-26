@@ -12,11 +12,11 @@ class Context{
         $this->strategy = $strategy;
     }
 
-    public function doSomeBusinessLogic($car): void
+    public function doSomeBusinessLogic($car,$isHighSeason,$bigStock)
     {
 
 
-        echo $this->strategy->couponGenerator($car); 
+        echo $this->strategy->couponGenerator($car,$isHighSeason,$bigStock); 
 
 
     }
@@ -24,17 +24,17 @@ class Context{
 
 interface carCouponGenerator 
 {
-    public function couponGenerator($car);
+    public function couponGenerator($car,$isHighSeason,$bigStock);
+    
 
 
 }
 
-class bmwCuoponGenerator implements carCouponGenerator {
-    public function couponGenerator($car){
+class bmwCouponGenerator implements carCouponGenerator {
+    public function couponGenerator($car,$isHighSeason,$bigStock){
 
         $discount = 0;
-        $isHighSeason = false;
-        $bigStock = true;
+
 
         if(!$isHighSeason) {$discount += 5;}
        if($bigStock) {$discount += 7;}
@@ -46,16 +46,14 @@ class bmwCuoponGenerator implements carCouponGenerator {
 }
 
 
-class mercedesCuoponGenerator implements carCouponGenerator {
-    public function couponGenerator($car){
+class mercedesCouponGenerator implements carCouponGenerator {
+    public function couponGenerator($car,$isHighSeason,$bigStock){
         $discount = 0;
-        $isHighSeason = false;
-        $bigStock = true;
 
         if(!$isHighSeason) {$discount += 4;}
         if($bigStock) {$discount += 10;}
 
-        return $cupoun = "Get {$discount}% off the price of your new Mercedes.";
+        return $cupoun = "Get {$discount}% off the price of your new Mercedes.".'<br>';
     }
 }
 
@@ -63,9 +61,30 @@ class mercedesCuoponGenerator implements carCouponGenerator {
 
 
 
-$context = new Context(new bmwCuoponGenerator());
+$context = new Context(new bmwCouponGenerator());
 
-$context->doSomeBusinessLogic('bmw');
 
-$context->setStrategy(new mercedesCuoponGenerator());
-$context->doSomeBusinessLogic('mercedes');
+
+$context->setStrategy(new mercedesCouponGenerator());
+$context->doSomeBusinessLogic('mercedes', false, true);
+
+$context->setStrategy(new mercedesCouponGenerator());
+$context->doSomeBusinessLogic('mercedes', true, false);
+
+$context->setStrategy(new mercedesCouponGenerator());
+$context->doSomeBusinessLogic('mercedes', true, true);
+
+$context->setStrategy(new mercedesCouponGenerator());
+$context->doSomeBusinessLogic('mercedes', false, false);
+
+$context->setStrategy(new bmwCouponGenerator());
+$context->doSomeBusinessLogic('bmw', false, true);
+
+$context->setStrategy(new bmwCouponGenerator());
+$context->doSomeBusinessLogic('bmw', true, false);
+
+$context->setStrategy(new bmwCouponGenerator());
+$context->doSomeBusinessLogic('bmw', true, true);
+
+$context->setStrategy(new bmwCouponGenerator());
+$context->doSomeBusinessLogic('bmw', false, false);
