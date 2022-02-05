@@ -3,6 +3,8 @@
 class Tigger {
 
         private static $instances = [];
+        
+        
 
 
        protected function __construct() {
@@ -28,29 +30,34 @@ class Tigger {
 
        }
 
-       public function getCounter($i){
-                echo "<br>Tigger roars ".$i." times.";
-       }
-
-
 
        public function roar() {
-               echo "Grrr!" . PHP_EOL;
+        
+                echo "Grrr!" . PHP_EOL;
+       
+        }
+
+       public function getCounter(){
+
+                $roars = rand(1,10);
+
+                for ($x=1; $x<=$roars; $x++){
+                        self::roar();
+                }
+
+                echo "<br>Tigger roars ".$roars." times.";
        }
+
+
+
+ 
 
 }
 
 
 function createTiggerAndRoar(){
         $t1 = Tigger::getInstance();
-
-        $roars= rand(1,10);
-
-        for ($x=1; $x<=$roars; $x++){
-                Tigger::roar();
-        }
-
-        Tigger::getCounter($roars);     
+        Tigger::getCounter();     
 
 }
 
